@@ -112,18 +112,5 @@ public function obtain_paises_DAO($url) {
             return $json;
         }
 
-        public function list_products_DAO($db) {
-        $sql = "SELECT * FROM products";
-        $stmt = $db->ejecutar($sql);
-        return $db->listar($stmt);
-
-    }
-
-    public function details_products_DAO($db,$id) {
-        $sql = "SELECT * FROM products WHERE serial_number LIKE '".$id."'";
-        $stmt = $db->ejecutar($sql);
-        return $db->listar($stmt);
-
-    }
 
 }

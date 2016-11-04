@@ -37,12 +37,4 @@ public function obtain_paises($url) {
             return $this->bll->obtain_models_BLL($arrArgument);
         }
 
-        public function list_products() {
-        return $this->bll->list_products_BLL();
-    }
-
-        public function details_products($id) {
-        return $this->bll->details_products_BLL($id);
-    }
-
 }

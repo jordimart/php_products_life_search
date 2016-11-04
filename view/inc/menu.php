@@ -22,10 +22,10 @@
                   </ul>
                 </li>
 
-                  <li class= <?php if($_GET['module'] == "products"){
+                  <!--<li class= <?php if($_GET['module'] == "products"){
                           echo "active";}else{ echo "";} ?> >
                           <a href="index.php?module=products">List products php</a>
-                        </li>
+                        </li>-->
                 <li class= <?php if($_GET['module'] == "contact"){
                         echo "active";}else{ echo "";} ?> >
                         <a href="index.php?module=contact">Contact</a>
