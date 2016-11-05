@@ -43,19 +43,53 @@ function paint_template_products($arrData) {
     print ("<br>");
     print ("<br>");
     print ("<br>");
-  
-    if (isset($arrData) && !empty($arrData)) {
 
-        foreach ($arrData as $product) {
+    if (isset($arrData) && !empty($arrData)) {
+      $i = 0;
+              foreach ($arrData as $product) {
+                  $i++;
+                  if (count($arrData) % 2 !== 0 && i >= count($arrData))
+                      print( '<div class="odd_prod">');
+                  else {
+                      if ($i % 2 != 0)
+                          print( '<div class="table-row">');
+                      else
+                          print('<div class="table-separator"></div>');
+                  }
 
             print ("<div class='prod' serial_number='".$product['serial_number']."'>");
             print ("<img class='prodImg' src='" . $product['avatar'] . "'alt='product' >");
             print ("<p>Model: " . $product['model'] . "</p>");
             print ("<p id='p2'>" . $product['sale_price'] . "€</p>");
             print ("</div>");
+
+            print('</div>');
+            if (count($arrData) % 2 !== 0 && i >= count($arrData))
+                print( '</div>');
+            else {
+                if ($i % 2 == 0)
+                    print('</div> <br>');
+            }
         }
     }
     print ("</div>");
     print ("</div>");
     print ("</section>");
+}
+
+function paint_template_search($message) {
+    $log = Log::getInstance();
+    $log->add_log_general("error paint_template_search", "products", "response " . http_response_code()); //$text, $controller, $function
+    $log->add_log_user("error paint_template_search", "", "products", "response " . http_response_code()); //$msg, $username = "", $controller, $function
+
+    print ("<section> \n");
+    print ("<div class='container'> \n");
+    print ("<div class='row text-center pad-row'> \n");
+
+    print ("<h2>" . $message . "</h2> \n");
+    print ("<br><br><br><br> \n");
+
+    print ("</div> \n");
+    print ("</div> \n");
+    print ("</section> \n");
 }

@@ -14,12 +14,92 @@ include $path . '/utils/response_code.inc.php';
 
 $_SESSION['module'] = "page_products";//guardamos el valor del módulo
 
+if (($_GET["serial_number"])) {
+    //filtrar $_GET["nom_product"]
+
+    $result = filter_string($_GET["serial_number"]);
+    if ($result['resultado']) {
+        $search = $result['datos'];
+    } else {
+        $search = '';
+    }
+    $model_path = SITE_ROOT . 'modules/page_products/model/model/';
+    set_error_handler('ErrorHandler');
+    try {
+
+        $arrArgument = array(
+            "column" => "serial_number",
+            "like" => $search
+        );
+        $producto = loadModel($model_path, "page_products_model", "select_like_products", $arrArgument);
+
+
+        //throw new Exception(); //que entre en el catch
+    } catch (Exception $e) {
+        showErrorPage(2, "ERROR - 503 BD", 'HTTP/1.0 503 Service Unavailable', 503);
+    }
+    restore_error_handler();
+
+    if ($producto) {
+        $jsondata["product_autocomplete"] = $producto;
+        echo json_encode($jsondata);
+        exit;
+    } else {
+        //if($producto){{ //que lance error si no existe el producto
+        showErrorPage(2, "ERROR - 404 NO DATA", 'HTTP/1.0 404 Not Found', 404);
+    }
+}
+///////////////////mes parts////////////
+
+if (($_GET["count_product"])) {
+    //filtrar $_GET["count_product"]
+    $result = filter_string($_GET["count_product"]);
+    if ($result['resultado']) {
+        $search = $result['datos'];
+    } else {
+        $search = '';
+    }
+    $model_path = SITE_ROOT . 'modules/page_products/model/model/';
+    set_error_handler('ErrorHandler');
+    try {
+
+        $arrArgument = array(
+            "column" => "serial_number",
+            "like" => $search
+        );
+        $total_rows = loadModel($model_path, "page_products_model", "count_like_products", $arrArgument);
+        //throw new Exception(); //que entre en el catch
+    } catch (Exception $e) {
+        showErrorPage(2, "ERROR - 503 BD", 'HTTP/1.0 503 Service Unavailable', 503);
+    }
+    restore_error_handler();
+
+    if ($total_rows) {
+        $jsondata["num_products"] = $total_rows[0]["total"];
+        echo json_encode($jsondata);
+        exit;
+    } else {
+        //if($total_rows){ //que lance error si no existe el producto
+        showErrorPage(2, "ERROR - 404 NO DATA", 'HTTP/1.0 404 Not Found', 404);
+    }
+}
+
 //obtain num total pages
 //obtenemos el número de páginas según los productos que hayan en base de datos
 if ((isset($_GET["num_pages"])) && ($_GET["num_pages"] === "true")) {
-
+  //filtrar $_GET["keyword"]
+  if (isset($_GET["keyword"])) {
+      $result = filter_string($_GET["keyword"]);
+      if ($result['resultado']) {
+          $search = $result['datos'];
+      } else {
+          $search = ' ';
+      }
+  } else {
+      $search = ' ';
+  }
     //definimos el número de productos por página
-    $item_per_page = 4;
+    $item_per_page = 6;
     //buscamos el modelo
     $path_model = SITE_ROOT . '/modules/page_products/model/model/';
 
@@ -27,8 +107,13 @@ if ((isset($_GET["num_pages"])) && ($_GET["num_pages"] === "true")) {
     set_error_handler('ErrorHandler');
 
     try {
+      $arrArgument = array(
+          "column" => "serial_number",
+          "like" => $search
+      );
+
         //este load utilizara la función de buscar el número total de productos
-        $arrValue = loadModel($path_model, "page_products_model", "total_products");
+        $arrValue = loadModel($path_model, "page_products_model", "count_like_products", $arrArgument);
         $get_total_rows = $arrValue[0]["total"]; //total records
         $pages = ceil($get_total_rows / $item_per_page); //break total records into pages
     } catch (Exception $e) {
@@ -61,26 +146,22 @@ if ((isset($_GET["view_error"])) && ($_GET["view_error"] === "false")) {
     showErrorPage(0, "ERROR - 404 NO DATA");
 }
 
+
 //Obtenemos según un id de producto seleccionado en el frontend los detalles del producto
 if (isset($_GET["idProduct"])) {
 
     $arrValue = null;
-
-    //anulo esta función ya que mi id es un string
-    //filter if idProduct is a number
-  /*  $result = filter_num_int($_GET["idProduct"]);
+    $result = filter_string($_GET["idProduct"]);
 
     if ($result['resultado']) {
         $id = $result['datos'];
     } else {
         $id = 1;
-    }*/
-
-    //modificación para que funcione con string
-    $id = $_GET["idProduct"];
+    }
 
     set_error_handler('ErrorHandler');
     try {
+      $arrValue=false;
       //obtenemos los datos del prodcuto con LoadModel de base de datos
         $path_model = SITE_ROOT . '/modules/page_products/model/model/';
         $arrValue = loadModel($path_model, "page_products_model", "details_products", $id);
@@ -102,9 +183,6 @@ if (isset($_GET["idProduct"])) {
 
 } else {
 
-//si no hay un producto seleccionado paginará los productos
-    $item_per_page = 6;
-
     //filter to $_POST["page_num"]
     if (isset($_POST["page_num"])) {
         $result = filter_num_int($_POST["page_num"]);
@@ -114,19 +192,43 @@ if (isset($_GET["idProduct"])) {
     } else {
         $page_number = 1;
     }
+    //si no hay un producto seleccionado paginará los productos
+        $item_per_page = 6;
 
-    set_error_handler('ErrorHandler');
-    try {
+        if (isset($_GET["keyword"])) {
+               $result = filter_string($_GET["keyword"]);
+               if ($result['resultado']) {
+                   $search = $result['datos'];
+               } else {
+                   $search = '';
+               }
+           } else {
+               $search = '';
+           }
+
+       if (isset($_POST["keyword"])) {
+               $result = filter_string($_POST["keyword"]);
+               if ($result['resultado']) {
+                   $search = $result['datos'];
+               } else {
+                   $search = '';
+               }
+           }
 
       //esto se utiliza para no perder la posición al paginar
         $position = (($page_number - 1) * $item_per_page);
-        $arrArgument = array(
-            'position' => $position,
-            'item_per_page' => $item_per_page
-        );
-        //utilizamos load model para consultar en bd los productos a paginar
         $path_model = SITE_ROOT . '/modules/page_products/model/model/';
-        $arrValue = loadModel($path_model, "page_products_model", "page_products", $arrArgument);
+
+        $arrArgument = array(
+            'column' => 'serial_number',
+            'like' => $search,
+            'position' => $position,
+            'limit' => $item_per_page
+        );
+        set_error_handler('ErrorHandler');
+        //utilizamos load model para consultar en bd los productos a paginar
+      try {
+        $arrValue = loadModel($path_model, "page_products_model", "select_like_limit_products", $arrArgument);
     } catch (Exception $e) {
       //error si no se ha producido la consulta
       //esta función pintaría el error mediante un template de php en html

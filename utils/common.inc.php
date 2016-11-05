@@ -8,7 +8,6 @@
             $modelClass = $model_name;
 
             if (!method_exists($modelClass, $function)){
-
               //Añadida forma para que pinte los errores
               throw new Exception();
             }
@@ -24,7 +23,7 @@
         }
     }
 
-    function loadView($rutaVista, $templateName, $arrPassValue = '') {
+    function loadView($rutaVista ="", $templateName="", $arrPassValue = '') {
     		$view_path = $rutaVista . $templateName;
     		$arrData = '';
 
@@ -33,11 +32,19 @@
     				$arrData = $arrPassValue;
     			include_once($view_path);
     		} else {
-          $log = Log::getInstance();
-			$log->add_log_general("error loadView general", $_GET['module'], "response ".http_response_code()); //$text, $controller, $function
-			$log->add_log_user("error loadView general", "", $_GET['module'], "response ".http_response_code());//$msg, $username = "", $controller, $function
+          //se modifica loadView, es mas sofisticado, de esta forma solo metiendo la vista también funcionará
+          $result = filter_num_int($rutaVista);
+        if ($result['resultado']) {
+            $rutaVista = $result['datos'];
+        } else {
+            $rutaVista = http_response_code();
+        }
 
-			$result = response_code(http_response_code());
+      $log = Log::getInstance();
+			$log->add_log_general("error loadView general", $_GET['module'], "response ".$rutaVista);
+			$log->add_log_user("error loadView general", "", $_GET['module'], "response ".$rutaVista);
+
+			$result = response_code($rutaVista);
 			$arrData = $result;
 			require_once $_SERVER['DOCUMENT_ROOT'].'/view/inc/templates_error/'. "error" .'.php';
     		}

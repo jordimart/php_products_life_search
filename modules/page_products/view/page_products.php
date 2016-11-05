@@ -1,5 +1,17 @@
 <script type="text/javascript" src="modules/page_products/view/js/jquery.bootpag.min.js"></script>
-<script type="text/javascript" src="modules/page_products/view/js/page_products.js" ></script>
+<script type="text/javascript" src="modules/page_products/view/js/pages_products.js" ></script>
+
+<br><br><br><br><br><br><br><br>
+<!--input de autocomplete añadida-->
+<center>
+<form name="search_prod" id="search_prod" class="search_prod">
+    <input type="text" value="" placeholder="Search Product ..." class="input_search" id="keyword" list="datalist">
+    <!-- <div id="results_keyword"></div> -->
+    <input name="Submit" id="Submit" class="button_search" type="button" />
+
+</form>
+</center>
+
 <!--aquí pintamos los resultados a paginar-->
 <div id="results"></div>
 
@@ -14,9 +26,9 @@
 <section id="product">
 
 <!-- en este modal se pintarán los detalles del producto-->
-    <div id="details_prod" hidden>
+    <!--<div id="details_prod" hidden>
 
-        <div id="details">
+        <div id="details">-->
             <div id="img_prod" class="prodImg"></div>
 
             <div id="container">
@@ -35,12 +47,10 @@
                   </p>
                 <div id="description_prod"></div>
                 </p>
-
                 <h2> <strong><div id="sale_price"></div></strong> </h5>
-
             </div>
 
-        </div>
+      <!--  </div>
 
-    </div>
+    </div>-->
 </section>

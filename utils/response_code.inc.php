@@ -89,6 +89,7 @@ function response_code($code = NULL) {
 }
 
 ///esta función se encarga de pintar el error en el caso de le digamos, en una plantilla,mediante loadView o registrandolo en el log y devolviendo el error
+//se añade nueva funcionalidad para marcar error en la búsqueda, se comentan los headers.
 function showErrorPage($code = 0, $message = "", $http = "", $num_http = 0) {
     switch ($code) {
         case 0:
@@ -96,7 +97,7 @@ function showErrorPage($code = 0, $message = "", $http = "", $num_http = 0) {
             die();
             break;
         case 1:
-            header($http, true, $num_http);
+            //header($http, true, $num_http);
             loadView();
             break;
         case 2:
@@ -105,11 +106,16 @@ function showErrorPage($code = 0, $message = "", $http = "", $num_http = 0) {
             $log->add_log_user($message, "", "", "response " . http_response_code()); //$msg, $username = "", $controller, $function
 
             $jsondata["error"] = $message;
-            header($http, true, $num_http);
+            //header($http, true, $num_http);
             echo json_encode($jsondata);
             exit;
             break;
+       case 3:
+            paint_template_search($message);
+            exit;
+            break;
     }
+
 }
 
 function ErrorHandler($errno, $errstr, $errfile, $errline) {
