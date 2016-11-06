@@ -1,6 +1,6 @@
 <?php
-//Plantillas para pintar en la vista errores o productos
 
+//Plantillas para pintar en la vista errores o productos
 //pintamos la página por html mediante php
 function paint_template_error($message) {
     $log = Log::getInstance();
@@ -26,13 +26,11 @@ function paint_template_error($message) {
     print ("<p>Powered by <a href='http://www.ispconfig.org'>ISPConfig</a></p>");
     print ("</div>");
     print("</div>");
-
-
 }
 
 //pintamos el html por php los productos en el modal
 function paint_template_products($arrData) {
-    //print ("<script type='text/javascript' src='modules/page_products/view/js/modal_products.js' ></script>");
+    print ("<script type='text/javascript' src='modules/page_products/view/js/modal_products.js' ></script>");
     print ("<section >");
     print ("<div class='container'>");
     print ("<div id='list_prod' class='row text-center pad-row'>");
@@ -45,43 +43,44 @@ function paint_template_products($arrData) {
     print ("<br>");
 
     if (isset($arrData) && !empty($arrData)) {
-      $i = 0;
-              foreach ($arrData as $product) {
-                  $i++;
-                  if (count($arrData) % 2 !== 0 && i >= count($arrData))
-                      print( '<div class="odd_prod">');
-                  else {
-                      if ($i % 2 != 0)
-                          print( '<div class="table-row">');
-                      else
-                          print('<div class="table-separator"></div>');
-                  }
+        $i = 0;
+        foreach ($arrData as $product) {
+            $i++;
+            if (count($arrData) % 2 !== 0 && i >= count($arrData)) {
+                print( '<div class="odd_prod">');
+            } else {
+                if ($i % 2 != 0) {
+                    print( '<div class="table-row">');
+                } else
+                    print('<div class="table-separator"></div>');
+            }
 
-                  print('<div class="table-cell">');
-
-
-                    print('<div class="media">');
-                    print('<div class="pull-left">');
-                    print('<img src="' . $product['avatar'] . '" class="icon-md" height="80" width="80">');
-                    print('</div>');
-                    print('<div class="media-body">');
-                    print('<h3 class="media-heading">' . $product['trademark'] . '</h3>');
-                    print('<p>' . $product['model'] . '</p>');
-                    print('<p>' . $product['description'] . '</p>');
-                    print('<h5> <strong>Precio:' . $product['sale_price'] . '</strong><strong>€</strong> </h5>');
-                    print("<div name='Read' id='Read' class='product_name' type='button'> Read Details </div>");
-
-                    print('</div>');
-                    print('</div>');
-                    print('<br>');
+            print('<div class="table-cell">');
 
 
-                    print('</div>');
-            if (count($arrData) % 2 !== 0 && i >= count($arrData))
+            print('<div class="media">');
+            print('<div class="pull-left">');
+            print('<img src="' . $product['avatar'] . '" class="icon-md" height="80" width="80">');
+            print('</div>');
+            print('<div class="media-body">');
+            print('<h3 class="media-heading">' . $product['trademark'] . '</h3>');
+            print('<p>' . $product['model'] . '</p>');
+            print('<p>' . $product['description'] . '</p>');
+            print('<h5> <strong>Precio:' . $product['sale_price'] . '</strong><strong>€</strong> </h5>');
+            print("<div id='" . $product['serial_number'] . "' class='product_name' type='button'> Read Details </div>");
+
+            print('</div>');
+            print('</div>');
+            print('<br>');
+
+
+            print('</div>');
+            if (count($arrData) % 2 !== 0 && i >= count($arrData)) {
                 print( '</div>');
-            else {
-                if ($i % 2 == 0)
+            } else {
+                if ($i % 2 == 0) {
                     print('</div> <br>');
+                }
             }
         }
     }

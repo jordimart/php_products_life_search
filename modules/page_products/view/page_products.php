@@ -33,8 +33,11 @@
             </div>
             <div class="media-body">
                 <div id="text-product">
-                <h3 class="media-heading title-product"  id="nom_product"></h3>
-                <p class="text-limited" id="desc_product" ></p>
+                <h3 class="media-heading title-product"  id="trademark"></h3>
+                <p class="text-limited" id="model" ></p>
+                <p class="text-limited" id="serial_number" ></p>
+                <p class="text-limited" id="category" ></p>
+                <p class="text-limited" id="description" ></p>
                 <br>
                 <h5 > <strong  id="price_product"></strong> </h5>
                 </div>

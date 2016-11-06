@@ -13,7 +13,7 @@ class page_products_dao {
         return self::$_instance;
     }
 
-//selecciona todos los producto de la db
+    //selecciona todos los producto de la db
     public function list_products_DAO($db) {
         $sql = "SELECT * FROM products";
         $stmt = $db->ejecutar($sql);
@@ -22,7 +22,7 @@ class page_products_dao {
     }
     //Consulta losdatos de un producto según un id pasado previamente
     public function details_products_DAO($db,$id) {
-          $sql = "SELECT * FROM products WHERE serial_number LIKE '".$id."'";
+        $sql = "SELECT * FROM products WHERE serial_number LIKE '".$id."'";
         $stmt = $db->ejecutar($sql);
         return $db->listar($stmt);
 
@@ -32,7 +32,6 @@ class page_products_dao {
         $position = $arrArgument['position'];
         $item_per_page = $arrArgument['item_per_page'];
         $sql = "SELECT * FROM products ORDER BY serial_number ASC LIMIT ".$position." , ".$item_per_page;
-
         $stmt = $db->ejecutar($sql);
         return $db->listar($stmt);
 
@@ -44,34 +43,28 @@ class page_products_dao {
         return $db->listar($stmt);
 
     }
-//ordena los productos por la letra o palabra que insertemos en search
+    //ordena los productos por la letra o palabra que insertemos en search
     public function select_column_products_DAO($db, $arrArgument) {
         $sql = "SELECT " . $arrArgument . " FROM products ORDER BY " . $arrArgument;
-
         $stmt = $db->ejecutar($sql);
         return $db->listar($stmt);
     }
-//escoge los productos que contengan las letras del argumento
+    //escoge los productos que contengan las letras del argumento
     public function select_like_products_DAO($db, $arrArgument) {
         $sql = "SELECT DISTINCT * FROM products WHERE " . $arrArgument['column'] . " like '%" . $arrArgument['like'] . "%'";
-
         $stmt = $db->ejecutar($sql);
         return $db->listar($stmt);
     }
     //cuenta los productos con las letras indicadas
      public function count_like_products_DAO($db, $arrArgument) {
         $sql = "SELECT COUNT(*) as total FROM products WHERE " . $arrArgument['column'] . " like '%" . $arrArgument['like'] . "%'";
-
         $stmt = $db->ejecutar($sql);
         return $db->listar($stmt);
     }
     //ordena los productos
     public function select_like_limit_products_DAO($db, $arrArgument) {
-
         $sql="SELECT * FROM products WHERE ".$arrArgument['column']." like '%". $arrArgument['like']. "%' ORDER BY serial_number ASC LIMIT ". $arrArgument['position']." , ". $arrArgument['limit'];
-
         $stmt=$db->ejecutar($sql);
-
         return $db->listar($stmt);
     }
 
