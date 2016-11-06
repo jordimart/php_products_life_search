@@ -32,7 +32,7 @@ function paint_template_error($message) {
 
 //pintamos el html por php los productos en el modal
 function paint_template_products($arrData) {
-    print ("<script type='text/javascript' src='modules/page_products/view/js/modal_products.js' ></script>");
+    //print ("<script type='text/javascript' src='modules/page_products/view/js/modal_products.js' ></script>");
     print ("<section >");
     print ("<div class='container'>");
     print ("<div id='list_prod' class='row text-center pad-row'>");
@@ -57,13 +57,26 @@ function paint_template_products($arrData) {
                           print('<div class="table-separator"></div>');
                   }
 
-            print ("<div class='prod' serial_number='".$product['serial_number']."'>");
-            print ("<img class='prodImg' src='" . $product['avatar'] . "'alt='product' >");
-            print ("<p>Model: " . $product['model'] . "</p>");
-            print ("<p id='p2'>" . $product['sale_price'] . "€</p>");
-            print ("</div>");
+                  print('<div class="table-cell">');
 
-            print('</div>');
+
+                    print('<div class="media">');
+                    print('<div class="pull-left">');
+                    print('<img src="' . $product['avatar'] . '" class="icon-md" height="80" width="80">');
+                    print('</div>');
+                    print('<div class="media-body">');
+                    print('<h3 class="media-heading">' . $product['trademark'] . '</h3>');
+                    print('<p>' . $product['model'] . '</p>');
+                    print('<p>' . $product['description'] . '</p>');
+                    print('<h5> <strong>Precio:' . $product['sale_price'] . '</strong><strong>€</strong> </h5>');
+                    print("<div name='Read' id='Read' class='product_name' type='button'> Read Details </div>");
+
+                    print('</div>');
+                    print('</div>');
+                    print('<br>');
+
+
+                    print('</div>');
             if (count($arrData) % 2 !== 0 && i >= count($arrData))
                 print( '</div>');
             else {

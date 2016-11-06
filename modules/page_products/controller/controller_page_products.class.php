@@ -11,13 +11,36 @@ include $path . '/classes/Log.class.singleton.php';
 include $path . '/utils/common.inc.php';
 include $path . '/utils/filters.inc.php';
 include $path . '/utils/response_code.inc.php';
+session_start();
 
 $_SESSION['module'] = "page_products";//guardamos el valor del módulo
 
-if (($_GET["serial_number"])) {
+if ((isset($_GET["autocomplete"])) && ($_GET["autocomplete"] === "true")) {
+    set_error_handler('ErrorHandler');
+    $model_path = SITE_ROOT . 'modules/page_products/model/model/';
+    try {
+
+        $nameProducts = loadModel($model_path, "page_products_model", "select_column_products", "trademark");
+    } catch (Exception $e) {
+        showErrorPage(2, "ERROR - 503 BD", 'HTTP/1.0 503 Service Unavailable', 503);
+    }
+    restore_error_handler();
+
+    if ($nameProducts) {
+        $jsondata["trademark"] = $nameProducts;
+        echo json_encode($jsondata);
+        exit;
+    } else {
+
+        showErrorPage(2, "ERROR - 404 NO DATA", 'HTTP/1.0 404 Not Found', 404);
+    }
+}
+
+
+if (($_GET["trademark"])) {
     //filtrar $_GET["nom_product"]
 
-    $result = filter_string($_GET["serial_number"]);
+    $result = filter_string($_GET["trademark"]);
     if ($result['resultado']) {
         $search = $result['datos'];
     } else {
@@ -28,8 +51,8 @@ if (($_GET["serial_number"])) {
     try {
 
         $arrArgument = array(
-            "column" => "serial_number",
-            "like" => $search
+            'column' => 'trademark',
+            'like' => $search
         );
         $producto = loadModel($model_path, "page_products_model", "select_like_products", $arrArgument);
 
@@ -64,7 +87,7 @@ if (($_GET["count_product"])) {
     try {
 
         $arrArgument = array(
-            "column" => "serial_number",
+            "column" => "trademark",
             "like" => $search
         );
         $total_rows = loadModel($model_path, "page_products_model", "count_like_products", $arrArgument);
@@ -93,11 +116,12 @@ if ((isset($_GET["num_pages"])) && ($_GET["num_pages"] === "true")) {
       if ($result['resultado']) {
           $search = $result['datos'];
       } else {
-          $search = ' ';
+          $search = '';
       }
   } else {
-      $search = ' ';
+      $search = '';
   }
+
     //definimos el número de productos por página
     $item_per_page = 6;
     //buscamos el modelo
@@ -108,7 +132,7 @@ if ((isset($_GET["num_pages"])) && ($_GET["num_pages"] === "true")) {
 
     try {
       $arrArgument = array(
-          "column" => "serial_number",
+          "column" => "trademark",
           "like" => $search
       );
 
@@ -220,7 +244,7 @@ if (isset($_GET["idProduct"])) {
         $path_model = SITE_ROOT . '/modules/page_products/model/model/';
 
         $arrArgument = array(
-            'column' => 'serial_number',
+            'column' => 'trademark',
             'like' => $search,
             'position' => $position,
             'limit' => $item_per_page

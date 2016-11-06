@@ -24,11 +24,14 @@ function search(keyword) {
     var json = JSON.parse(data);
     var pages = json.pages;
 
-    if (!keyword)
+    if (!keyword) {
       url = urlbase;
-    else
+      //console.log(url);
+    } else {
       url = urlbase + "?keyword=" + keyword;
-
+      //console.log(url);
+    }
+    //console.log("numero de paginas: " + pages);
     $("#results").load(url);
 
     if (pages !== 0) {
@@ -76,26 +79,26 @@ function search(keyword) {
 
 function search_product(keyword) {
   $.get(
-    "modules/page_products/controller/controller_page_products.class.php?serial_number=" +
+    "modules/page_products/controller/controller_page_products.class.php?trademark=" +
     keyword,
     function(data, status) {
       var json = JSON.parse(data);
       var product = json.product_autocomplete;
-
+      //  alert("he entrat a search:" + product);
       $('#results').html('');
       $('.pagination').html('');
 
-      var img_prod = document.getElementById('img_prod');
+      var img_prod = document.getElementById('img_product');
       img_prod.innerHTML = '<img src="' + product[0].avatar +
         '" class="prodImg"> ';
 
-      var serial_number = document.getElementById('serial_number');
+      var serial_number = document.getElementById('nom_product');
       serial_number.innerHTML = product[0].serial_number;
-      var country = document.getElementById('country');
+      var country = document.getElementById('desc_product');
       country.innerHTML = product[0].country;
-      var sale_price = document.getElementById('sale_price');
+      var sale_price = document.getElementById('price_product');
       sale_price.innerHTML = "Price: " + product[0].sale_price + " €";
-      sale_price.setAttribute("class", "special");
+      //sale_price.setAttribute("class", "special");
 
     }).fail(function(xhr) {
     $("#results").load(
@@ -113,9 +116,9 @@ function count_product(keyword) {
     function(data, status) {
       var json = JSON.parse(data);
       var num_products = json.num_products;
-      alert("num_products: " + num_products);
+      //  alert("numero_trademarks: " + num_products);
 
-      if (num_products == 0) {
+      if (num_products === 0) {
         $("#results").load(
           "modules/page_products/controller/controller_page_products.class.php?view_error=false"
         ); //view_error=false
@@ -153,7 +156,7 @@ $(document).ready(function() {
   if (getCookie("search")) {
     var keyword = getCookie("search");
     count_product(keyword);
-    alert("carrega pagina getCookie(search): " + getCookie("search"));
+    //alert("carrega pagina getCookie(search): " + getCookie("search"));
     //("#keyword").val(keyword) if we don't use refresh(), this way we could show the search param
     setCookie("search", "", 1);
   } else {
@@ -166,7 +169,7 @@ $(document).ready(function() {
     var v_keyword = validate_search(keyword);
     if (v_keyword)
       setCookie("search", keyword, 1);
-    alert("getCookie(search): " + getCookie("search"));
+    //  alert("getCookie(search): " + getCookie("search"));
     location.reload(true);
 
 
@@ -188,13 +191,13 @@ $(document).ready(function() {
     "modules/page_products/controller/controller_page_products.class.php?autocomplete=true",
     function(data, status) {
       var json = JSON.parse(data);
-      var nom_productos = json.nom_productos;
-      //alert(nom_productos[0].nombre);
+      var trademark = json.trademark;
+      //alert("numero deproductos" + nom_productos[0].serial_number);
       //console.log(nom_productos);
 
       var suggestions = new Array();
-      for (var i = 0; i < nom_productos.length; i++) {
-        suggestions.push(nom_productos[i].nombre);
+      for (var i = 0; i < trademark.length; i++) {
+        suggestions.push(trademark[i].trademark);
       }
       //alert(suggestions);
       //console.log(suggestions);
@@ -206,6 +209,7 @@ $(document).ready(function() {
           //alert(ui.item.label);
 
           var keyword = ui.item.label;
+          //console.log("este count es cuan tinc un producte");
           count_product(keyword);
         }
       });
