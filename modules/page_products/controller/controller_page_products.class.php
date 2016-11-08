@@ -18,7 +18,7 @@ $_SESSION['module'] = "page_products"; //guardamos el valor del módulo
 
 if ((isset($_GET["autocomplete"])) && ($_GET["autocomplete"] === "true")) {
     set_error_handler('ErrorHandler');
-    $model_path = SITE_ROOT . 'modules/page_products/model/model/';
+    $model_path = SITE_ROOT . '/modules/page_products/model/model/';
     try {
 
         $nameProducts = loadModel($model_path, "page_products_model", "select_column_products", "trademark");
@@ -47,7 +47,7 @@ if (($_GET["trademark"])) {
     } else {
         $search = '';
     }
-    $model_path = SITE_ROOT . 'modules/page_products/model/model/';
+    $model_path = SITE_ROOT . '/modules/page_products/model/model/';
     set_error_handler('ErrorHandler');
     try {
 
@@ -83,7 +83,7 @@ if (($_GET["count_product"])) {
     } else {
         $search = '';
     }
-    $model_path = SITE_ROOT . 'modules/page_products/model/model/';
+    $model_path = SITE_ROOT . '/modules/page_products/model/model/';
     set_error_handler('ErrorHandler');
     try {
 

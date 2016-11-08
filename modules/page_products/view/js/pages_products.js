@@ -182,7 +182,7 @@ $(document).ready(function() {
     var v_keyword = validate_search(keyword);
     if (v_keyword)
       setCookie("search", keyword, 1);
-    alert("getCookie(search): " + getCookie("search"));
+    //  alert("getCookie(search): " + getCookie("search"));
     location.reload(true);
 
   });
@@ -193,7 +193,7 @@ $(document).ready(function() {
       var json = JSON.parse(data);
       var trademark = json.trademark;
       //alert("numero deproductos" + nom_productos[0].serial_number);
-      //console.log(nom_productos);
+      console.log(trademark);
 
       var suggestions = new Array();
       for (var i = 0; i < trademark.length; i++) {
