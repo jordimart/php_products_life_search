@@ -116,9 +116,9 @@ function count_product(keyword) {
     function(data, status) {
       var json = JSON.parse(data);
       var num_products = json.num_products;
-      //  alert("numero_trademarks: " + num_products);
+      alert("numero_trademarks: " + num_products);
 
-      if (num_products === 0) {
+      if (num_products == 0) {
         $("#results").load(
           "modules/page_products/controller/controller_page_products.class.php?view_error=false"
         ); //view_error=false
@@ -145,7 +145,7 @@ function reset() {
   $('#serial_number').html('');
   $('#country').html('');
   $('#sale_price').html('');
-  $('#sale_price').removeClass("special");
+  //$('#sale_price').removeClass("special");
 
   $('#keyword').val('');
 }
@@ -193,7 +193,7 @@ $(document).ready(function() {
       var json = JSON.parse(data);
       var trademark = json.trademark;
       //alert("numero deproductos" + nom_productos[0].serial_number);
-      console.log(trademark);
+      //console.log(trademark);
 
       var suggestions = new Array();
       for (var i = 0; i < trademark.length; i++) {
