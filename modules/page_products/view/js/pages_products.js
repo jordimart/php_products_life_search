@@ -92,13 +92,26 @@ function search_product(keyword) {
       img_prod.innerHTML = '<img src="' + product[0].avatar +
         '" class="prodImg"> ';
 
-      var serial_number = document.getElementById('nom_product');
-      serial_number.innerHTML = product[0].serial_number;
-      var country = document.getElementById('desc_product');
-      country.innerHTML = product[0].country;
-      var sale_price = document.getElementById('price_product');
-      sale_price.innerHTML = "Price: " + product[0].sale_price + " €";
-      //sale_price.setAttribute("class", "special");
+      var trademark = document.getElementById('trademark');
+      trademark.innerHTML = product[0].trademark;
+      var model = document.getElementById('model');
+      model.innerHTML = "Model: " + product[0].model;
+      var serial_number = document.getElementById('serial_number');
+      serial_number.innerHTML = "Serial_number: " + product[0].serial_number;
+      var category = document.getElementById('category');
+      category.innerHTML = "Country: " + product[0].category;
+      var desc_product = document.getElementById('description');
+      desc_product.innerHTML = "Description: " + product[0].description;
+      var price_product = document.getElementById('price_product');
+      price_product.innerHTML = "Precio: " + product[0].sale_price +
+        " €";
+      /*  var serial_number = document.getElementById('trademark');
+        serial_number.innerHTML = product[0].serial_number;
+        var country = document.getElementById('model');
+        country.innerHTML = product[0].model;
+        var sale_price = document.getElementById('price_product');
+        sale_price.innerHTML = "Price: " + product[0].sale_price + " €";
+        //sale_price.setAttribute("class", "special");*/
 
     }).fail(function(xhr) {
     $("#results").load(
