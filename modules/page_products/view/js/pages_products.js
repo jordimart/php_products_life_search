@@ -129,7 +129,7 @@ function count_product(keyword) {
     function(data, status) {
       var json = JSON.parse(data);
       var num_products = json.num_products;
-      alert("numero_trademarks: " + num_products);
+      //alert("numero_trademarks: " + num_products);
 
       if (num_products == 0) {
         $("#results").load(

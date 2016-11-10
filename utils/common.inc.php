@@ -46,6 +46,6 @@
 
 			$result = response_code($rutaVista);
 			$arrData = $result;
-			require_once $_SERVER['DOCUMENT_ROOT'].'/view/inc/templates_error/'. "error" .'.php';
+			require_once 'view/inc/error.php';
     		}
     	}
